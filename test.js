@@ -6,11 +6,13 @@ const dom = new JSDOM(`<body>
   <div></div>
 </body>`)
 
-test('base', t => {
+test('base', (t) => {
   const node = dom.window.document.children[0]
   const cx = dcx(node)
 
-  cx('foo', { bar: true, baz: false }, 'qux')
+  node.className = 'yes no'
 
-  t.true('foo bar qux' === node.className)
+  cx('foo', { bar: true, baz: false, 'hi hello': true, yes: false }, 'qux')
+
+  t.true('no foo bar hi hello qux' === node.className)
 })

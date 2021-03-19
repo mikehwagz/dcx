@@ -1,15 +1,15 @@
-export default function dcx (node) {
-  return function cx (...cns) {
-    cns.reduce((arr, val) => {
-      return arr.concat(
-        typeof val === 'object' ? (
-          Object.keys(val).map(cn => [cn, val[cn]])
-        ) : (
-          [[val, true]]
-        )
+export default function dcx(node) {
+  return function cx(...cns) {
+    cns
+      .reduce(
+        (arr, val) =>
+          arr.concat(
+            typeof val === 'object' ? Object.entries(val) : [[val, true]],
+          ),
+        [],
       )
-    }, []).map(def => {
-      node.classList[def[1] ? 'add' : 'remove'](...def[0].split(' '))
-    })
+      .map((def) =>
+        def[0].split(' ').map((cn) => node.classList.toggle(cn, def[1])),
+      )
   }
 }
